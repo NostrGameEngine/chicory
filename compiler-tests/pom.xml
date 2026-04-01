@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.ngengine</groupId>
+    <groupId>org.ngengine.chicory</groupId>
     <artifactId>chicory</artifactId>
     <version>999-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
@@ -31,32 +31,32 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>build-time-compiler</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>compiler</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>runtime</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>wabt</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>wasm</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>wasm-corpus</artifactId>
       <scope>test</scope>
     </dependency>
@@ -85,7 +85,7 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.ngengine</groupId>
+        <groupId>org.ngengine.chicory</groupId>
         <artifactId>test-gen-plugin</artifactId>
         <version>${project.version}</version>
         <configuration>

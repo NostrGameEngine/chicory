@@ -35,7 +35,7 @@ and you can use any Chicory dependency without declaring the version number agai
 
 <!--
 ```java
-//DEPS org.ngengine:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine.chicory:docs-lib:999-SNAPSHOT
 
 docs.FileOps.writeResult("docs/usage", "bom.md.result", "empty");
 ```

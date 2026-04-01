@@ -66,8 +66,8 @@ In the codebase you can use the generated module by configuring appropriately th
 
 <!--
 ```java
-//DEPS org.ngengine:docs-lib:999-SNAPSHOT
-//DEPS org.ngengine:runtime:999-SNAPSHOT
+//DEPS org.ngengine.chicory:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine.chicory:runtime:999-SNAPSHOT
 
 import com.dylibso.chicory.wasm.Parser;
 import com.dylibso.chicory.wasm.WasmModule;
@@ -124,8 +124,8 @@ You can then use them directly in your code without any annotation:
 
 <!--
 ```java
-//DEPS org.ngengine:docs-lib:999-SNAPSHOT
-//DEPS org.ngengine:runtime:999-SNAPSHOT
+//DEPS org.ngengine.chicory:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine.chicory:runtime:999-SNAPSHOT
 
 import com.dylibso.chicory.wasm.Parser;
 import com.dylibso.chicory.wasm.WasmModule;

@@ -2,7 +2,7 @@
 <project>
 
   <modelVersion>4.0.0</modelVersion>
-  <groupId>org.ngengine</groupId>
+  <groupId>org.ngengine.chicory</groupId>
 
   <artifactId>hello-wasi-chicory-it</artifactId>
   <version>0.0-SNAPSHOT</version>
@@ -14,22 +14,22 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>annotations</artifactId>
       <version>@project.version@</version>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>runtime</artifactId>
       <version>@project.version@</version>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>wasi</artifactId>
       <version>@project.version@</version>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>annotations-processor</artifactId>
       <version>@project.version@</version>
       <scope>provided</scope>
@@ -48,7 +48,7 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>wasm-corpus</artifactId>
       <version>@project.version@</version>
       <scope>test</scope>
@@ -66,7 +66,7 @@
           <release>${maven.compiler.release}</release>
           <annotationProcessorPaths>
             <path>
-              <groupId>org.ngengine</groupId>
+              <groupId>org.ngengine.chicory</groupId>
               <artifactId>annotations-processor</artifactId>
               <version>@project.version@</version>
             </path>

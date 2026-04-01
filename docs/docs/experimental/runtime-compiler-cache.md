@@ -57,9 +57,9 @@ Create the cache:
 
 <!--
 ```java
-//DEPS org.ngengine:docs-lib:999-SNAPSHOT
-//DEPS org.ngengine:compiler:999-SNAPSHOT
-//DEPS org.ngengine:dircache-experimental:999-SNAPSHOT
+//DEPS org.ngengine.chicory:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine.chicory:compiler:999-SNAPSHOT
+//DEPS org.ngengine.chicory:dircache-experimental:999-SNAPSHOT
 ```
 -->
 ```java
@@ -96,7 +96,7 @@ var instance = Instance.builder(module).
 
 <!--
 ```java
-//DEPS org.ngengine:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine.chicory:docs-lib:999-SNAPSHOT
 docs.FileOps.writeResult("docs/experimental", "runtime-compiler-cache.md.result", "empty");
 ```
 -->

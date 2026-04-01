@@ -36,8 +36,8 @@ of the default `InterpreterMachine`.
 
 <!--
 ```java
-//DEPS org.ngengine:docs-lib:999-SNAPSHOT
-//DEPS org.ngengine:compiler:999-SNAPSHOT
+//DEPS org.ngengine.chicory:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine.chicory:compiler:999-SNAPSHOT
 
 import com.dylibso.chicory.wasm.Parser;
 import com.dylibso.chicory.runtime.Instance;

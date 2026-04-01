@@ -22,7 +22,7 @@ title: Execution modes
 
 <!--
 ```java
-//DEPS org.ngengine:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine.chicory:docs-lib:999-SNAPSHOT
 
 docs.FileOps.writeResult("docs/usage", "execution_modes.md.result", "empty");
 ```

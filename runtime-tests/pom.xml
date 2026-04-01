@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.ngengine</groupId>
+    <groupId>org.ngengine.chicory</groupId>
     <artifactId>chicory</artifactId>
     <version>999-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
@@ -15,7 +15,7 @@
 
   <dependencies>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>runtime</artifactId>
     </dependency>
     <dependency>
@@ -29,17 +29,17 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>wasm</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>wasm-corpus</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.ngengine</groupId>
+      <groupId>org.ngengine.chicory</groupId>
       <artifactId>wasm-tools</artifactId>
       <scope>test</scope>
     </dependency>
@@ -61,7 +61,7 @@
         </executions>
       </plugin>
       <plugin>
-        <groupId>org.ngengine</groupId>
+        <groupId>org.ngengine.chicory</groupId>
         <artifactId>test-gen-plugin</artifactId>
         <version>${project.version}</version>
         <configuration>
@@ -480,7 +480,7 @@
       </properties>
       <dependencies>
         <dependency>
-          <groupId>org.ngengine</groupId>
+          <groupId>org.ngengine.chicory</groupId>
           <artifactId>simd</artifactId>
         </dependency>
       </dependencies>
@@ -531,7 +531,7 @@
             </executions>
           </plugin>
           <plugin>
-            <groupId>org.ngengine</groupId>
+            <groupId>org.ngengine.chicory</groupId>
             <artifactId>test-gen-plugin</artifactId>
             <version>${project.version}</version>
             <configuration>
