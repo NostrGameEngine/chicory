@@ -2,7 +2,6 @@ package com.dylibso.chicory.wasm;
 
 import static com.dylibso.chicory.wasm.Parser.MAGIC_BYTES;
 import static com.dylibso.chicory.wasm.Parser.VERSION_BYTES;
-import static java.lang.Integer.toUnsignedLong;
 
 import com.dylibso.chicory.wasm.types.RawSection;
 import java.io.ByteArrayOutputStream;
@@ -31,7 +30,7 @@ public final class WasmWriter {
     }
 
     public static void writeVarUInt32(ByteArrayOutputStream out, int value) {
-        long x = toUnsignedLong(value);
+        long x = value & 0xffff_ffffL;
         while (true) {
             if (x < 0x80) {
                 out.write((int) x);

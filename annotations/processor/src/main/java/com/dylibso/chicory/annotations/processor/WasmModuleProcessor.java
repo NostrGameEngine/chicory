@@ -9,11 +9,11 @@ import com.dylibso.chicory.codegen.ModuleInterfaceCodegen;
 import com.dylibso.chicory.wasm.Parser;
 import com.dylibso.chicory.wasm.WasmModule;
 import com.github.javaparser.ast.CompilationUnit;
+import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.nio.file.Path;
 import java.util.Set;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
@@ -52,7 +52,7 @@ public final class WasmModuleProcessor extends AbstractModuleProcessor {
 
         WasmModule module;
         if (wasmFile.startsWith("file:")) {
-            module = Parser.parse(Path.of(new URI(wasmFile)));
+            module = Parser.parse(new File(new URI(wasmFile)));
         } else {
             FileObject fileObject =
                     processingEnv

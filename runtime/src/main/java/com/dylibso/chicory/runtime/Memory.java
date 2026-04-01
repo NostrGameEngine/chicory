@@ -50,7 +50,7 @@ public interface Memory {
     ///////////////////////////
 
     default void atomicFence() {
-        ByteBufferMemory.ATOMIC_FENCE_IMPL.run();
+        AtomicSupport.fullFence();
     }
 
     default int atomicWait(int addr, int expected, long timeout) {
@@ -376,7 +376,7 @@ public interface Memory {
     }
 
     default long readU32(int addr) {
-        return Integer.toUnsignedLong(readInt(addr));
+        return readInt(addr) & 0xffff_ffffL;
     }
 
     void writeLong(int addr, long data);

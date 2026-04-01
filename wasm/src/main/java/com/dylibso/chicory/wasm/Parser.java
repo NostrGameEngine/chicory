@@ -70,23 +70,17 @@ import com.dylibso.chicory.wasm.types.ValType;
 import com.dylibso.chicory.wasm.types.Value;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.security.DigestInputStream;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -237,46 +231,43 @@ public final class Parser {
     }
 
     public static WasmModule parse(File file) {
-        return parse(file.toPath());
-    }
-
-    public static WasmModule parse(Path path) {
         return new Parser()
                 .parse(
                         () -> {
                             try {
-                                return Files.newInputStream(path);
+                                return new FileInputStream(file);
                             } catch (IOException e) {
                                 throw new IllegalArgumentException(
-                                        "Error opening file: " + path, e);
+                                        "Error opening file: " + file, e);
                             }
                         });
+    }
+
+    public static WasmModule parse(String path) {
+        return parse(new File(path));
     }
 
     public WasmModule parse(Supplier<InputStream> inputStreamSupplier) {
         WasmModule.Builder moduleBuilder = WasmModule.builder();
         moduleBuilder.withValidation(validate);
-        MessageDigest messageDigest = null;
+        byte[] bytes;
         try (InputStream is = inputStreamSupplier.get()) {
-            InputStream maybeDigestedInputStream = is;
-            if (!"none".equals(DIGEST_ALGORITHM)) {
-                // wrap the input stream so we can calculate the digest hash of the wasm module
-                messageDigest = MessageDigest.getInstance(DIGEST_ALGORITHM);
-                maybeDigestedInputStream = new DigestInputStream(is, messageDigest);
-            }
-            parse(maybeDigestedInputStream, (s) -> onSection(moduleBuilder, s));
-        } catch (IOException | NoSuchAlgorithmException e) {
+            bytes = InputStreams.readAllBytes(is);
+        } catch (IOException e) {
             throw new ChicoryException(e);
+        }
+
+        try {
+            parse(new ByteArrayInputStream(bytes), (s) -> onSection(moduleBuilder, s));
         } catch (MalformedException e) {
             throw new MalformedException(
                     "section size mismatch, unexpected end of section or function, "
                             + e.getMessage(),
                     e);
         }
-        if (messageDigest != null) {
-            String algo = DIGEST_ALGORITHM.toLowerCase(Locale.getDefault()).replace(":", "");
-            moduleBuilder.withDigest(
-                    algo + ":" + Base64.getEncoder().encodeToString(messageDigest.digest()));
+        String digest = ModuleDigest.digest(bytes, DIGEST_ALGORITHM);
+        if (digest != null) {
+            moduleBuilder.withDigest(digest);
         }
         return moduleBuilder.build();
     }

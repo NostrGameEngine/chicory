@@ -56,7 +56,7 @@ public class Generator {
     }
 
     public Set<Integer> generateResources() throws IOException {
-        var module = Parser.parse(config.wasmFile());
+        var module = Parser.parse(config.wasmFile().toFile());
         var machineName = config.name() + "Machine";
         var compiler =
                 Compiler.builder(module)
@@ -114,7 +114,7 @@ public class Generator {
     }
 
     public void generateModuleInterface(String moduleInterfaceName) throws IOException {
-        var module = Parser.parse(config.wasmFile());
+        var module = Parser.parse(config.wasmFile().toFile());
 
         var lastDot = moduleInterfaceName.lastIndexOf('.');
         var packageName = (lastDot > 0) ? moduleInterfaceName.substring(0, lastDot) : "";

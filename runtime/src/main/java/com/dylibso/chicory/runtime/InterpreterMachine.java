@@ -2326,7 +2326,7 @@ public class InterpreterMachine implements Machine {
             throw new InvalidException("unaligned atomic");
         }
         var val = instance.memory((int) operands.get(2)).atomicReadInt(ptr);
-        stack.push(Integer.toUnsignedLong(val));
+        stack.push(val & 0xffff_ffffL);
     }
 
     private static void I32_ATOMIC_STORE(MStack stack, Instance instance, Operands operands) {
@@ -2582,7 +2582,7 @@ public class InterpreterMachine implements Machine {
             default:
                 throw new IllegalStateException("Unexpected atomic op: " + op);
         }
-        stack.push(Integer.toUnsignedLong(oldVal));
+        stack.push(oldVal & 0xffff_ffffL);
     }
 
     private static void I64_ATOMIC_RMW32_CMPXCHG_U(
@@ -2595,7 +2595,7 @@ public class InterpreterMachine implements Machine {
         }
         var oldVal =
                 instance.memory((int) operands.get(2)).atomicCmpxchgInt(ptr, expected, replacement);
-        stack.push(Integer.toUnsignedLong(oldVal));
+        stack.push(oldVal & 0xffff_ffffL);
     }
 
     private static void MEM_ATOMIC_WAIT32(MStack stack, Instance instance, Operands operands) {

@@ -8,7 +8,6 @@ import com.dylibso.chicory.wasm.types.OpCode;
 import com.dylibso.chicory.wasm.types.PassiveElement;
 import com.dylibso.chicory.wasm.types.ValType;
 import com.dylibso.chicory.wasm.types.Value;
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Note: Some opcodes are easy or trivial to implement as compiler intrinsics (local.get, i32.add, etc).
@@ -315,7 +314,7 @@ public final class OpcodeImpl {
 
     @OpCodeIdentifier(OpCode.I64_EXTEND_I32_U)
     public static long I64_EXTEND_I32_U(int x) {
-        return Integer.toUnsignedLong(x);
+        return x & 0xffff_ffffL;
     }
 
     @OpCodeIdentifier(OpCode.I64_GE_S)
@@ -573,7 +572,7 @@ public final class OpcodeImpl {
 
     @OpCodeIdentifier(OpCode.F32_CONVERT_I32_U)
     public static float F32_CONVERT_I32_U(int x) {
-        return Integer.toUnsignedLong(x);
+        return x & 0xffff_ffffL;
     }
 
     @OpCodeIdentifier(OpCode.F32_CONVERT_I64_S)
@@ -689,7 +688,7 @@ public final class OpcodeImpl {
 
     @OpCodeIdentifier(OpCode.F64_CONVERT_I32_U)
     public static double F64_CONVERT_I32_U(int x) {
-        return Integer.toUnsignedLong(x);
+        return x & 0xffff_ffffL;
     }
 
     @OpCodeIdentifier(OpCode.F64_CONVERT_I64_S)
@@ -903,44 +902,8 @@ public final class OpcodeImpl {
         return tableValue;
     }
 
-    private static final Runnable ATOMIC_FENCE_IMPL;
-
-    static {
-        Runnable impl;
-        try {
-            // to take into account older Android API level:
-            // https://developer.android.com/reference/java/lang/invoke/VarHandle#fullFence()
-            java.lang.invoke.VarHandle.fullFence();
-            impl = java.lang.invoke.VarHandle::fullFence;
-        } catch (NoSuchMethodError e) {
-            try {
-                Class<?> unsafeClass = Class.forName("sun.misc.Unsafe");
-                var theUnsafeField = unsafeClass.getDeclaredField("theUnsafe");
-                theUnsafeField.setAccessible(true);
-                var theUnsafe = theUnsafeField.get(null);
-                var fullFence = unsafeClass.getMethod("fullFence");
-
-                impl =
-                        () -> {
-                            try {
-                                fullFence.invoke(theUnsafe);
-                            } catch (IllegalAccessException | InvocationTargetException ex) {
-                                throw new RuntimeException(
-                                        "ATOMIC_FENCE implementation: Failed to invoke"
-                                                + " sun.misc.Unsafe",
-                                        ex);
-                            }
-                        };
-            } catch (Throwable ex) {
-                throw new RuntimeException(
-                        "ATOMIC_FENCE implementation: Failed to lookup sun.misc.Unsafe", ex);
-            }
-        }
-        ATOMIC_FENCE_IMPL = impl;
-    }
-
     @OpCodeIdentifier(OpCode.ATOMIC_FENCE)
     public static void ATOMIC_FENCE() {
-        ATOMIC_FENCE_IMPL.run();
+        AtomicSupport.fullFence();
     }
 }
