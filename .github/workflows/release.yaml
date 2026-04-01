@@ -31,10 +31,10 @@ jobs:
           java-version: 21
           distribution: 'temurin'
           server-id: central
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_CENTRAL_TOKEN
+          server-username: SONATYPE_USERNAME
+          server-password: SONATYPE_PASSWORD
           gpg-private-key: ${{ secrets.GPG_PRIVATE_KEY }}
-          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+          gpg-passphrase: GPG_PASSPHRASE
 
       - id: install-secret-key
         name: Install gpg secret key
@@ -43,7 +43,7 @@ jobs:
           gpg --list-secret-keys --keyid-format LONG
 
       - name: Compile
-        run: mvn --batch-mode -Dquickly
+        run: ./mvnw --batch-mode -Dquickly clean install -DskipTests=true
 
       - name: Setup Git
         run: |
@@ -52,7 +52,7 @@ jobs:
 
       - name: Set the version
         run: |
-          mvn versions:set -DgenerateBackupPoms=false -DnewVersion=${{ github.event.inputs.release-version }}
+          ./mvnw versions:set -DgenerateBackupPoms=false -DnewVersion=${{ github.event.inputs.release-version }}
           git add .
           git commit -m "Release version update ${{ github.event.inputs.release-version }}"
           git push
@@ -64,16 +64,16 @@ jobs:
       - name: Release to Maven Central
         run: |
           # -Dquickly is needed to locally publish wasm-corpus
-          mvn --batch-mode -Dquickly
-          mvn --batch-mode clean deploy -Drelease -DskipTests=true -X
+          ./mvnw --batch-mode -Dquickly install -DskipTests=true
+          ./mvnw --batch-mode clean deploy -Drelease -DskipTests=true
         env:
-          MAVEN_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
-          MAVEN_CENTRAL_TOKEN: ${{ secrets.SONATYPE_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Back to Snapshot
         run: |
-          mvn versions:set -DgenerateBackupPoms=false -DnewVersion=999-SNAPSHOT
+          ./mvnw versions:set -DgenerateBackupPoms=false -DnewVersion=999-SNAPSHOT
           git add .
           git commit -m "Snapshot version update"
           git push

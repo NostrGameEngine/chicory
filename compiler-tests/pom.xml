@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.dylibso.chicory</groupId>
+    <groupId>org.ngengine</groupId>
     <artifactId>chicory</artifactId>
     <version>999-SNAPSHOT</version>
     <relativePath>../pom.xml</relativePath>
@@ -21,36 +21,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.dylibso.chicory</groupId>
-      <artifactId>build-time-compiler</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.dylibso.chicory</groupId>
-      <artifactId>compiler</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.dylibso.chicory</groupId>
-      <artifactId>runtime</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.dylibso.chicory</groupId>
-      <artifactId>wabt</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.dylibso.chicory</groupId>
-      <artifactId>wasm</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.dylibso.chicory</groupId>
-      <artifactId>wasm-corpus</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-api</artifactId>
       <scope>test</scope>
@@ -58,6 +28,36 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>build-time-compiler</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>compiler</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>runtime</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>wabt</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>wasm</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>wasm-corpus</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -74,8 +74,18 @@
 
   <build>
     <plugins>
+
       <plugin>
-        <groupId>com.dylibso.chicory</groupId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemPropertyVariables>
+            <chicory.compiler.printUseOfInterpretedFunctions>true</chicory.compiler.printUseOfInterpretedFunctions>
+          </systemPropertyVariables>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.ngengine</groupId>
         <artifactId>test-gen-plugin</artifactId>
         <version>${project.version}</version>
         <configuration>
@@ -456,16 +466,6 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <systemPropertyVariables>
-            <chicory.compiler.printUseOfInterpretedFunctions>true</chicory.compiler.printUseOfInterpretedFunctions>
-          </systemPropertyVariables>
-        </configuration>
       </plugin>
     </plugins>
   </build>

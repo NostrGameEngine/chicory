@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.dylibso.chicory</groupId>
+    <groupId>org.ngengine</groupId>
     <artifactId>chicory</artifactId>
     <version>999-SNAPSHOT</version>
   </parent>
@@ -14,27 +14,12 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.dylibso.chicory</groupId>
+      <groupId>org.ngengine</groupId>
       <artifactId>runtime</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.dylibso.chicory</groupId>
+      <groupId>org.ngengine</groupId>
       <artifactId>wasm</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.dylibso.chicory</groupId>
-      <artifactId>compiler</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.dylibso.chicory</groupId>
-      <artifactId>wasi</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.dylibso.chicory</groupId>
-      <artifactId>wasm-corpus</artifactId>
-      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>io.roastedroot</groupId>
@@ -51,12 +36,27 @@
       <artifactId>junit-jupiter-params</artifactId>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>compiler</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>wasi</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>wasm-corpus</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>com.dylibso.chicory</groupId>
+        <groupId>org.ngengine</groupId>
         <artifactId>chicory-compiler-maven-plugin</artifactId>
         <executions>
           <execution>

@@ -23,8 +23,8 @@ rustc --target=wasm32-wasi --crate-type=bin
 
 <!--
 ```java
-//DEPS com.dylibso.chicory:docs-lib:999-SNAPSHOT
-//DEPS com.dylibso.chicory:runtime:999-SNAPSHOT
+//DEPS org.ngengine:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine:runtime:999-SNAPSHOT
 
 docs.FileOps.copyFromWasmCorpus("count_vowels.rs.wasm", "count_vowels.rs.wasm");
 

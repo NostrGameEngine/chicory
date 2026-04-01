@@ -34,9 +34,9 @@ The relevant module can be added to the build with:
 
 <!--
 ```java
-//DEPS com.dylibso.chicory:docs-lib:999-SNAPSHOT
-//DEPS com.dylibso.chicory:wabt:999-SNAPSHOT
-//DEPS com.dylibso.chicory:wasm-tools:999-SNAPSHOT
+//DEPS org.ngengine:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine:wabt:999-SNAPSHOT
+//DEPS org.ngengine:wasm-tools:999-SNAPSHOT
 
 import com.dylibso.chicory.wasm.Parser;
 import com.dylibso.chicory.runtime.Instance;

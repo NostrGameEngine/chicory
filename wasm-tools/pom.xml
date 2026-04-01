@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>com.dylibso.chicory</groupId>
+    <groupId>org.ngengine</groupId>
     <artifactId>chicory</artifactId>
     <version>999-SNAPSHOT</version>
   </parent>
@@ -19,24 +19,24 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.dylibso.chicory</groupId>
+      <groupId>io.roastedroot</groupId>
+      <artifactId>zerofs</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
       <artifactId>log</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.dylibso.chicory</groupId>
+      <groupId>org.ngengine</groupId>
       <artifactId>runtime</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.dylibso.chicory</groupId>
+      <groupId>org.ngengine</groupId>
       <artifactId>wasi</artifactId>
     </dependency>
     <dependency>
-      <groupId>com.dylibso.chicory</groupId>
+      <groupId>org.ngengine</groupId>
       <artifactId>wasm</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.roastedroot</groupId>
-      <artifactId>zerofs</artifactId>
     </dependency>
     <dependency>
       <groupId>org.junit.jupiter</groupId>
@@ -47,30 +47,6 @@
 
   <build>
     <plugins>
-      <plugin>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>chicory-compiler-maven-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>wasmtools</id>
-            <goals>
-              <goal>compile</goal>
-            </goals>
-            <configuration>
-              <name>com.dylibso.chicory.tools.wasm.WasmToolsModule</name>
-              <wasmFile>${project.basedir}/target/wasm-tools.wasm</wasmFile>
-              <!-- <interpreterFallback>WARN</interpreterFallback> -->
-              <interpretedFunctions>
-                <function>4725</function>
-                <function>5095</function>
-                <function>5422</function>
-                <function>7668</function>
-                <function>10543</function>
-              </interpretedFunctions>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
@@ -108,6 +84,30 @@
               <url>https://github.com/bytecodealliance/wasm-tools/releases/download/v${wasm-tools.version}/wasm-tools-${wasm-tools.version}-wasm32-wasip1.tar.gz</url>
               <toDir>${project.basedir}</toDir>
               <skipIfExists>true</skipIfExists>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.ngengine</groupId>
+        <artifactId>chicory-compiler-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>wasmtools</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <name>com.dylibso.chicory.tools.wasm.WasmToolsModule</name>
+              <wasmFile>${project.basedir}/target/wasm-tools.wasm</wasmFile>
+              <!-- <interpreterFallback>WARN</interpreterFallback> -->
+              <interpretedFunctions>
+                <function>4725</function>
+                <function>5095</function>
+                <function>5422</function>
+                <function>7668</function>
+                <function>10543</function>
+              </interpretedFunctions>
             </configuration>
           </execution>
         </executions>

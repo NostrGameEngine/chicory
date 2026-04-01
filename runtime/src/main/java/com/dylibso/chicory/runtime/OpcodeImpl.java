@@ -591,7 +591,7 @@ public final class OpcodeImpl {
         long sum = x + 0xff_ffff_ffffL;
         // did the add overflow? add the MSB back on after the shift
         long shiftIn = ((sum ^ x) & Long.MIN_VALUE) >>> 39;
-        return Math.scalb((float) ((sum >>> 40) | shiftIn), 40);
+        return ((float) ((sum >>> 40) | shiftIn)) * 0x1p40f;
     }
 
     @OpCodeIdentifier(OpCode.F32_COPYSIGN)
@@ -707,7 +707,7 @@ public final class OpcodeImpl {
         long sum = tos + 0x3ff;
         // did the add overflow? add the MSB back on after the shift
         long shiftIn = ((sum ^ tos) & Long.MIN_VALUE) >>> 10;
-        return Math.scalb((double) ((sum >>> 11) | shiftIn), 11);
+        return ((double) ((sum >>> 11) | shiftIn)) * 0x1p11;
     }
 
     @OpCodeIdentifier(OpCode.F64_COPYSIGN)

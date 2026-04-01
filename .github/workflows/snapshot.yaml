@@ -1,0 +1,54 @@
+name: snapshot
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: snapshot-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  snapshot:
+    name: Publish Snapshot
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Java
+        uses: actions/setup-java@v5
+        with:
+          java-version: 21
+          distribution: "temurin"
+          cache: maven
+          server-id: central
+          server-username: SONATYPE_USERNAME
+          server-password: SONATYPE_PASSWORD
+
+      - name: Verify Snapshot Version
+        run: |
+          VERSION=$(./mvnw -q -DforceStdout help:evaluate -Dexpression=project.version)
+          echo "Detected version: ${VERSION}"
+          case "${VERSION}" in
+            *-SNAPSHOT) ;;
+            *)
+              echo "This workflow publishes only -SNAPSHOT versions."
+              exit 1
+              ;;
+          esac
+
+      - name: Publish Snapshot to Central Portal
+        run: |
+          # -Dquickly is needed to locally publish wasm-corpus
+          ./mvnw --batch-mode -Dquickly install -DskipTests=true
+          ./mvnw --batch-mode clean deploy -Dquickly -Drelease -DskipTests=true -Dgpg.skip=true
+        env:
+          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
+          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}

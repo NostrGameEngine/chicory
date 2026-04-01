@@ -22,7 +22,7 @@ chmod a+x chicory
 
 <!--
 ```java
-//DEPS com.dylibso.chicory:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine:docs-lib:999-SNAPSHOT
 
 docs.FileOps.writeResult("docs/experimental", "cli.md.result", "empty");
 ```

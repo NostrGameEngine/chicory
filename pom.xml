@@ -2,13 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.dylibso.chicory</groupId>
+  <groupId>org.ngengine</groupId>
   <artifactId>chicory</artifactId>
   <version>999-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Chicory</name>
   <description>Native JVM WebAssembly runtime</description>
-  <url>https://github.com/dylibso/chicory</url>
+  <url>https://github.com/NostrGameEngine/chicory</url>
 
   <organization>
     <name>Dylibso, Inc.</name>
@@ -36,12 +36,12 @@
   <scm>
     <connection>scm:git:git://github.com/dylibso/chicory.git</connection>
     <developerConnection>scm:git:ssh://github.com:dylibso/chicory.git</developerConnection>
-    <url>http://github.com/dylibso/chicory/tree/main</url>
+    <url>https://github.com/NostrGameEngine/chicory</url>
   </scm>
 
   <issueManagement>
     <system>Github</system>
-    <url>https://github.com/dylibso/chicory/issues</url>
+    <url>https://github.com/NostrGameEngine/chicory</url>
   </issueManagement>
 
   <properties>
@@ -110,93 +110,6 @@
         <version>${asm.version}</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>annotations</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>annotations-processor</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>build-time-compiler</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>chicory-compiler-maven-plugin</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>cli-experimental</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>codegen</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-
-      <!-- Chicory project modules -->
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>compiler</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>dircache-experimental</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>log</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>runtime</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>simd</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>test-gen-lib</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>wabt</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>wasi</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>wasm</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>wasm-corpus</artifactId>
-        <version>${project.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.dylibso.chicory</groupId>
-        <artifactId>wasm-tools</artifactId>
-        <version>${project.version}</version>
       </dependency>
 
       <!-- Jackson -->
@@ -270,6 +183,93 @@
         <groupId>org.apache.velocity</groupId>
         <artifactId>velocity</artifactId>
         <version>${velocity.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>annotations</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>annotations-processor</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>build-time-compiler</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>chicory-compiler-maven-plugin</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>cli-experimental</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>codegen</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+
+      <!-- Chicory project modules -->
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>compiler</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>dircache-experimental</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>log</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>runtime</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>simd</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>test-gen-lib</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>wabt</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>wasi</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>wasm</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>wasm-corpus</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.ngengine</groupId>
+        <artifactId>wasm-tools</artifactId>
+        <version>${project.version}</version>
       </dependency>
 
       <!-- JMH tests -->
@@ -368,11 +368,6 @@
           <groupId>com.diffplug.spotless</groupId>
           <artifactId>spotless-maven-plugin</artifactId>
           <version>${spotless-maven-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>com.dylibso.chicory</groupId>
-          <artifactId>chicory-compiler-maven-plugin</artifactId>
-          <version>${project.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -478,6 +473,11 @@
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>templating-maven-plugin</artifactId>
           <version>${templating-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.ngengine</groupId>
+          <artifactId>chicory-compiler-maven-plugin</artifactId>
+          <version>${project.version}</version>
         </plugin>
         <plugin>
           <groupId>org.sonatype.central</groupId>
@@ -618,8 +618,8 @@
           <failOnWarning>${maven.dependency.failOnWarning}</failOnWarning>
           <ignoreUnusedRuntime>true</ignoreUnusedRuntime>
           <ignoredUnusedDeclaredDependencies>
-            <dependency>com.dylibso.chicory:simd</dependency>
-            <dependency>com.dylibso.chicory:wasm-corpus</dependency>
+            <dependency>org.ngengine:simd</dependency>
+            <dependency>org.ngengine:wasm-corpus</dependency>
             <dependency>org.junit.jupiter:junit-jupiter-engine</dependency>
           </ignoredUnusedDeclaredDependencies>
         </configuration>

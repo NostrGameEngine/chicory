@@ -10,8 +10,8 @@ If you are using a version of Java that supports [JEP 448 - Vector API](https://
 
 <!--
 ```java
-//DEPS com.dylibso.chicory:docs-lib:999-SNAPSHOT
-//DEPS com.dylibso.chicory:simd:999-SNAPSHOT
+//DEPS org.ngengine:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine:simd:999-SNAPSHOT
 
 import com.dylibso.chicory.wasm.Parser;
 import com.dylibso.chicory.runtime.Instance;
@@ -22,7 +22,7 @@ docs.FileOps.copyFromWasmCorpus("count_vowels.rs.wasm", "your.wasm");
 
 <!--
 ```java
-//DEPS com.dylibso.chicory:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine:docs-lib:999-SNAPSHOT
 
 docs.FileOps.writeResult("docs/usage", "logging.md.result", "empty");
 ```
@@ -50,7 +50,7 @@ var instance = Instance.builder(module).withMachineFactory(SimdInterpreterMachin
 
 <!--
 ```java
-//DEPS com.dylibso.chicory:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine:docs-lib:999-SNAPSHOT
 
 docs.FileOps.writeResult("docs/usage", "simd.md.result", "empty");
 ```

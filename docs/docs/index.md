@@ -28,8 +28,8 @@ implementation 'com.dylibso.chicory:runtime:latest-release'
 
 <!--
 ```java
-//DEPS com.dylibso.chicory:docs-lib:999-SNAPSHOT
-//DEPS com.dylibso.chicory:runtime:999-SNAPSHOT
+//DEPS org.ngengine:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine:runtime:999-SNAPSHOT
 ```
 -->
 

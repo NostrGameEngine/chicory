@@ -7,9 +7,9 @@ title: Wasi Preview 1
 
 <!--
 ```java
-//DEPS com.dylibso.chicory:wasi:999-SNAPSHOT
+//DEPS org.ngengine:wasi:999-SNAPSHOT
 //DEPS com.google.jimfs:jimfs:1.3.0
-//DEPS com.dylibso.chicory:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine:docs-lib:999-SNAPSHOT
 ```
 -->
 

@@ -47,8 +47,8 @@ curl https://raw.githubusercontent.com/dylibso/chicory/main/wasm-corpus/src/main
 
 <!--
 ```java
-//DEPS com.dylibso.chicory:docs-lib:999-SNAPSHOT
-//DEPS com.dylibso.chicory:runtime:999-SNAPSHOT
+//DEPS org.ngengine:docs-lib:999-SNAPSHOT
+//DEPS org.ngengine:runtime:999-SNAPSHOT
 
 docs.FileOps.copyFromWasmCorpus("host-function.wat.wasm", "logger.wasm");
 ```
