@@ -67,8 +67,7 @@ final class AtomicSupport {
                     fullFence.invoke(theUnsafe);
                 } catch (IllegalAccessException | InvocationTargetException e) {
                     throw new RuntimeException(
-                            "ATOMIC_FENCE implementation: failed to invoke Unsafe.fullFence()",
-                            e);
+                            "ATOMIC_FENCE implementation: failed to invoke Unsafe.fullFence()", e);
                 }
             };
         } catch (Throwable ignored) {
