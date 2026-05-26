@@ -89,8 +89,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
 
-      - name: Release to GH Action
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.event.inputs.release-version }}
-          token: ${{ secrets.GH_TOKEN }}
