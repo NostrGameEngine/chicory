@@ -4,7 +4,7 @@
 
   <groupId>org.ngengine.chicory</groupId>
   <artifactId>chicory</artifactId>
-  <version>1.7.5-nge</version>
+  <version>1.7.5-nge2</version>
   <packaging>pom</packaging>
   <name>Chicory</name>
   <description>Native JVM WebAssembly runtime</description>

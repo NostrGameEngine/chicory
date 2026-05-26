@@ -4,7 +4,7 @@
   <parent>
     <groupId>org.ngengine.chicory</groupId>
     <artifactId>chicory</artifactId>
-    <version>1.7.5-nge</version>
+    <version>1.7.5-nge2</version>
   </parent>
   <artifactId>wasm-corpus</artifactId>
   <name>Chicory - WASM Corpus</name>
