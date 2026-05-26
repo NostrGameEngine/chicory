@@ -38,6 +38,19 @@ jobs:
         env:
           MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
+      - name: Select GPG signing key
+        run: |
+          set -euo pipefail
+
+          primary_fingerprint="$(gpg --batch --list-secret-keys --with-colons | awk -F: '/^sec:/ { in_primary = 1; next } in_primary && /^fpr:/ { print $10; exit }')"
+          if [ -z "${primary_fingerprint}" ]; then
+            echo "No GPG secret key was imported."
+            exit 1
+          fi
+
+          echo "MAVEN_GPG_KEYNAME=${primary_fingerprint}!" >> "${GITHUB_ENV}"
+          gpg --batch --list-secret-keys --keyid-format LONG
+
       - name: Compile
         run: ./mvnw --batch-mode -Dquickly clean install -DskipTests=true
 
@@ -61,7 +74,7 @@ jobs:
         run: |
           # -Dquickly is needed to locally publish wasm-corpus
           ./mvnw --batch-mode -Dquickly install -DskipTests=true
-          ./mvnw --batch-mode clean deploy -Drelease -DskipTests=true
+          ./mvnw --batch-mode clean deploy -Drelease -DskipTests=true -Dgpg.keyname="${MAVEN_GPG_KEYNAME}"
         env:
           SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
