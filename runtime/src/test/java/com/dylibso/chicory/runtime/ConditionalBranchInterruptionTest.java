@@ -82,7 +82,7 @@ public class ConditionalBranchInterruptionTest {
 
     private static byte[] module(int[] body) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bytes.writeBytes(new byte[] {0, 0x61, 0x73, 0x6d, 1, 0, 0, 0});
+        bytes.write(new byte[] {0, 0x61, 0x73, 0x6d, 1, 0, 0, 0}, 0, 8);
         section(bytes, 1, new int[] {1, 0x60, 0, 0});
         section(bytes, 3, new int[] {1, 0});
         section(bytes, 7, new int[] {1, 3, 'r', 'u', 'n', 0, 0});

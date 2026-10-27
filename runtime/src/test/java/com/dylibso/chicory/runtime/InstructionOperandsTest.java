@@ -292,7 +292,7 @@ public class InstructionOperandsTest {
 
     private static byte[] module(int result, boolean memory, int[]... bodies) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        out.writeBytes(new byte[] {0, 0x61, 0x73, 0x6d, 1, 0, 0, 0});
+        out.write(new byte[] {0, 0x61, 0x73, 0x6d, 1, 0, 0, 0}, 0, 8);
         section(out, 1, result < 0 ? new int[] {1, 0x60, 0, 0} : new int[] {1, 0x60, 0, 1, result});
         int[] functions = new int[bodies.length + 1];
         functions[0] = bodies.length;
@@ -325,7 +325,7 @@ public class InstructionOperandsTest {
     private static void section(ByteArrayOutputStream out, int id, byte[] values) {
         out.write(id);
         unsigned(out, values.length);
-        out.writeBytes(values);
+        out.write(values, 0, values.length);
     }
 
     private static void unsigned(ByteArrayOutputStream out, int value) {
