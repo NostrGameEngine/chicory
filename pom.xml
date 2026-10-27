@@ -731,6 +731,18 @@
 
   <profiles>
     <profile>
+      <id>teavm-tests</id>
+      <activation>
+        <property>
+          <name>teavm-tests</name>
+        </property>
+      </activation>
+      <modules>
+        <module>teavm-tests</module>
+      </modules>
+    </profile>
+
+    <profile>
       <!-- Disable strict checks during development -->
       <id>dev</id>
       <activation>
