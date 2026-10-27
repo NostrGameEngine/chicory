@@ -51,7 +51,7 @@ public class TestModule {
                     parsed = Wat2Wasm.parse(is);
                 } catch (RuntimeException e) {
                     throw new MalformedException(
-                            e.getMessage() + HACK_MATCH_ALL_MALFORMED_EXCEPTION_TEXT);
+                            e.getMessage() + HACK_MATCH_ALL_MALFORMED_EXCEPTION_TEXT, e);
                 }
                 return of(Parser.parse(parsed));
             }

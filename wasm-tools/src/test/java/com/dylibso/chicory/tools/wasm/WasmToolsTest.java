@@ -60,6 +60,18 @@ public class WasmToolsTest {
     }
 
     @Test
+    public void shouldParseLineCommentsWithEveryNewline() {
+        for (String newline : new String[] {"\n", "\r", "\r\n"}) {
+            String wat =
+                    "(func (export \"run\") (result i32) (i32.const 1) ;; comment"
+                            + newline
+                            + " (return (i32.const 2))\n)";
+            var instance = Instance.builder(Parser.parse(Wat2Wasm.parse(wat))).build();
+            assertEquals(2L, instance.export("run").apply()[0]);
+        }
+    }
+
+    @Test
     public void shouldThrowMalformedException() throws Exception {
         var exitException =
                 assertThrows(
