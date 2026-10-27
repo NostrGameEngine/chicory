@@ -349,7 +349,14 @@ public final class ByteBufferMemory implements Memory {
         int pageIndex = addr >>> PAGE_SHIFT;
         // TeaVM can omit JVM array/null checks; validate against allocated pages explicitly.
         if (pageIndex >= nPages) {
-            checkBounds(addr, accessSize, sizeInBytes(), WasmRuntimeException::new);
+            // Throw directly; rechecking the range can miscompile on older ARM JVMs.
+            throw new WasmRuntimeException(
+                    "out of bounds memory access: attempted to access address: "
+                            + addr
+                            + " but limit is: "
+                            + sizeInBytes()
+                            + " and size: "
+                            + accessSize);
         }
         return pages[pageIndex];
     }

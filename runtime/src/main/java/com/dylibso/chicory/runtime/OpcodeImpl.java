@@ -85,8 +85,7 @@ public final class OpcodeImpl {
 
     @OpCodeIdentifier(OpCode.I32_GE_U)
     public static int I32_GE_U(int a, int b) {
-        // Use one comparison to avoid the comparison folding affected by JDK-8376400.
-        return (a ^ Integer.MIN_VALUE) >= (b ^ Integer.MIN_VALUE) ? TRUE : FALSE;
+        return Integer.compareUnsigned(a, b) >= 0 ? TRUE : FALSE;
     }
 
     @OpCodeIdentifier(OpCode.I32_GT_S)
