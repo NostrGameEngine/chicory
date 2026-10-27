@@ -31,7 +31,11 @@ public class StackFrame {
     private final int[] localIdx;
     private final Instance instance;
 
+    // Reuse only immutable values at a previously active depth. This retains at most
+    // 64 inactive frames per activation; deeper active control flow is unchanged.
+    private static final int MAX_CACHED_CONTROL_FRAMES = 64;
     private final List<CtrlFrame> ctrlStack = new ArrayList<>();
+    private int ctrlStackSize;
 
     public StackFrame(Instance instance, int funcId, long[] args) {
         this(
@@ -149,36 +153,58 @@ public class StackFrame {
     }
 
     void pushCtrl(CtrlFrame ctrlFrame) {
-        ctrlStack.add(ctrlFrame);
+        if (ctrlStackSize == ctrlStack.size()) {
+            ctrlStack.add(ctrlFrame);
+        } else {
+            ctrlStack.set(ctrlStackSize, ctrlFrame);
+        }
+        ctrlStackSize++;
     }
 
     void pushCtrl(OpCode opcode, int startValues, int returnValues, int height) {
-        ctrlStack.add(new CtrlFrame(opcode, startValues, returnValues, height));
+        pushCtrl(opcode, startValues, returnValues, height, 0);
     }
 
     void pushCtrl(OpCode opcode, int startValues, int returnValues, int height, int pc) {
-        ctrlStack.add(new CtrlFrame(opcode, startValues, returnValues, height, pc));
+        if (ctrlStackSize < ctrlStack.size()) {
+            CtrlFrame cached = ctrlStack.get(ctrlStackSize);
+            if (cached != null
+                    && cached.opCode == opcode
+                    && cached.startValues == startValues
+                    && cached.endValues == returnValues
+                    && cached.height == height
+                    && cached.pc == pc) {
+                ctrlStackSize++;
+                return;
+            }
+        }
+        pushCtrl(new CtrlFrame(opcode, startValues, returnValues, height, pc));
     }
 
     int ctrlStackSize() {
-        return ctrlStack.size();
+        return ctrlStackSize;
     }
 
     CtrlFrame popCtrl() {
-        var ctrlFrame = ctrlStack.remove(ctrlStack.size() - 1);
+        int index = ctrlStackSize - 1;
+        CtrlFrame ctrlFrame = ctrlStack.get(index);
+        if (index >= MAX_CACHED_CONTROL_FRAMES) {
+            ctrlStack.remove(index);
+        }
+        ctrlStackSize = index;
         return ctrlFrame;
     }
 
     CtrlFrame popCtrl(int n) {
-        int mostRecentCallHeight = ctrlStack.size();
+        int mostRecentCallHeight = ctrlStackSize;
         while (true) {
             if (ctrlStack.get(--mostRecentCallHeight).opCode == OpCode.CALL) {
                 break;
             }
         }
-        var finalHeight = ctrlStack.size() - (mostRecentCallHeight + n + 1);
+        var finalHeight = ctrlStackSize - (mostRecentCallHeight + n + 1);
         CtrlFrame ctrlFrame = null;
-        while (ctrlStack.size() > finalHeight) {
+        while (ctrlStackSize > finalHeight) {
             ctrlFrame = popCtrl();
         }
         return ctrlFrame;
