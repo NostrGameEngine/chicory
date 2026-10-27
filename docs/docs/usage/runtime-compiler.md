@@ -110,6 +110,21 @@ var instance = Instance.builder(module).
 
 Typically, you can obtain the list of the functions by running the compiler once with `InterpreterFallback.WARN`
 
+### JVM Dispatch Sizing
+
+For large modules, the compiler splits direct function dispatch into smaller JVM methods
+to help the JIT optimize them. The bytecode budget defaults to 8000 bytes. If your JVM
+uses a different JIT method-size limit, set `chicory.hugeMethodLimit` before the compiler
+is first used:
+
+```sh
+java -Dchicory.hugeMethodLimit=8000 -jar application.jar
+```
+
+Chunk sizes are powers of two. Very small or nonpositive budgets use the minimum chunk
+size, and very large budgets are capped at a bounded maximum.
+The default budget is appropriate for the usual HotSpot configuration.
+
 ### Caveats 
 
 Please note that compiling and executing Wasm modules at runtime requires:
