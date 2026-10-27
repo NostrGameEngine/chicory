@@ -27,7 +27,7 @@ class WasiTestSuiteDownloader {
 
         log.warn("Cloning the testsuite at ref: " + testSuiteRepoRef);
         String zipName = testSuiteRepoRef + ".zip";
-        URL url = new URL(testSuiteRepo + "/archive/refs/heads/" + zipName);
+        URL url = new URL(testSuiteRepo + "/archive/" + zipName);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
 

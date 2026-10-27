@@ -54,9 +54,9 @@ public class WasiTestGenMojo extends AbstractMojo {
     private String testSuiteRepo;
 
     /**
-     * Repository of the test suite.
+     * Revision of the test suite, pinned to the supported specification format.
      */
-    @Parameter(required = true, defaultValue = "prod/testsuite-base")
+    @Parameter(required = true, defaultValue = "6345da2237c562d9a94e281332c653b5528fdd52")
     private String testSuiteRepoRef;
 
     /**

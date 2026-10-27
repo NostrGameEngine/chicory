@@ -44,7 +44,8 @@ jobs:
         with:
           repository: WebAssembly/wasi-testsuite
           path: wasi-testsuite
-          ref: prod/testsuite-base
+          # Keep in sync with the default ref in wasi-test-gen-plugin.
+          ref: 6345da2237c562d9a94e281332c653b5528fdd52
       - name: Set up Java
         uses: actions/setup-java@v5
         with:
@@ -104,7 +105,8 @@ jobs:
         with:
           repository: WebAssembly/wasi-testsuite
           path: wasi-testsuite
-          ref: prod/testsuite-base
+          # Keep in sync with the default ref in wasi-test-gen-plugin.
+          ref: 6345da2237c562d9a94e281332c653b5528fdd52
       - name: Set up Java
         uses: actions/setup-java@v5
         with:
