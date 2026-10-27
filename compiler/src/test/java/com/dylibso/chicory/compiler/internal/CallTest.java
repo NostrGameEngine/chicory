@@ -11,6 +11,26 @@ import org.junit.jupiter.api.Test;
 public class CallTest {
 
     @Test
+    public void indirectTailCallCanTargetAnotherInstance() {
+        var module =
+                Parser.parse(
+                        CorpusResources.getResource("compiled/cross-instance-tail-call.wat.wasm"));
+        for (boolean compiledTarget : new boolean[] {false, true}) {
+            var targetBuilder = Instance.builder(module);
+            if (compiledTarget) {
+                targetBuilder.withMachineFactory(MachineFactoryCompiler::compile);
+            }
+            var target = targetBuilder.build();
+            var caller =
+                    Instance.builder(module)
+                            .withMachineFactory(MachineFactoryCompiler::compile)
+                            .build();
+            caller.table(0).setRef(0, 0, target);
+            assertArrayEquals(new long[] {42}, caller.export("run").apply(41));
+        }
+    }
+
+    @Test
     public void callLotsOfArgs() throws InterruptedException {
         var module = Parser.parse(CorpusResources.getResource("compiled/lots-of-args.wat.wasm"));
         var instance =
