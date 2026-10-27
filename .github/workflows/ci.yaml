@@ -13,7 +13,6 @@ jobs:
   ci:
     name: CI
     runs-on: ${{ matrix.os }}
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
@@ -56,6 +55,14 @@ jobs:
         run: mvn -B clean install
         env:
           MAVEN_OPTS: "-ea"
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ci-failure-${{ matrix.os }}-java-${{ matrix.version }}
+          path: |
+            **/target/surefire-reports/
+            runtime-tests/target/generated-resources/compiled-wast/comments/
 
   docs-ci:
     runs-on: ubuntu-latest
@@ -85,7 +92,6 @@ jobs:
   test-results:
     name: Test Results
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       fail-fast: false
       matrix:
