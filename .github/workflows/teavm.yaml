@@ -1,0 +1,36 @@
+name: NGE TeaVM Runtime
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime:
+    name: Compile and run runtime JavaScript
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v6
+      - name: Set up Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '25'
+          cache: maven
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '22'
+      - name: Compile and execute with the NGE TeaVM fork
+        run: mvn -B -ntp -U -Dteavm-tests -pl teavm-tests -am verify
+      - name: Upload generated JavaScript
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: teavm-runtime-javascript
+          path: teavm-tests/target/javascript/
