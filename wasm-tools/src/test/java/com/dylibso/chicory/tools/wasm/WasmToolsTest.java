@@ -61,13 +61,20 @@ public class WasmToolsTest {
 
     @Test
     public void shouldParseLineCommentsWithEveryNewline() {
+        StringBuilder combined = new StringBuilder();
+        int index = 0;
         for (String newline : new String[] {"\n", "\r", "\r\n"}) {
             String wat =
-                    "(func (export \"run\") (result i32) (i32.const 1) ;; comment"
+                    "(func (export \"run"
+                            + index++
+                            + "\") (result i32) (i32.const 1) ;; comment"
                             + newline
                             + " (return (i32.const 2))\n)";
-            var instance = Instance.builder(Parser.parse(Wat2Wasm.parse(wat))).build();
-            assertEquals(2L, instance.export("run").apply()[0]);
+            combined.append(wat).append(' ');
+        }
+        var instance = Instance.builder(Parser.parse(Wat2Wasm.parse(combined.toString()))).build();
+        for (int i = 0; i < index; i++) {
+            assertEquals(2L, instance.export("run" + i).apply()[0]);
         }
     }
 
