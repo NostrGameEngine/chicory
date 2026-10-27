@@ -345,10 +345,19 @@ public final class ByteBufferMemory implements Memory {
         }
     }
 
+    private ByteBuffer pageForAddress(int addr, int accessSize) {
+        int pageIndex = addr >>> PAGE_SHIFT;
+        // TeaVM can omit JVM array/null checks; validate against allocated pages explicitly.
+        if (pageIndex >= nPages) {
+            checkBounds(addr, accessSize, sizeInBytes(), WasmRuntimeException::new);
+        }
+        return pages[pageIndex];
+    }
+
     @Override
     public byte read(int addr) {
         try {
-            return pages[addr >>> PAGE_SHIFT].get(addr & PAGE_MASK);
+            return pageForAddress(addr, 1).get(addr & PAGE_MASK);
         } catch (RuntimeException e) {
             throw outOfBoundsException(e, addr, 1);
         }
@@ -379,7 +388,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 4 <= PAGE_SIZE) {
             try {
-                pages[addr >>> PAGE_SHIFT].putInt(off, data);
+                pageForAddress(addr, 4).putInt(off, data);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 4);
             }
@@ -401,7 +410,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 4 <= PAGE_SIZE) {
             try {
-                return pages[addr >>> PAGE_SHIFT].getInt(off);
+                return pageForAddress(addr, 4).getInt(off);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 4);
             }
@@ -422,7 +431,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 8 <= PAGE_SIZE) {
             try {
-                pages[addr >>> PAGE_SHIFT].putLong(off, data);
+                pageForAddress(addr, 8).putLong(off, data);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 8);
             }
@@ -448,7 +457,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 8 <= PAGE_SIZE) {
             try {
-                return pages[addr >>> PAGE_SHIFT].getLong(off);
+                return pageForAddress(addr, 8).getLong(off);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 8);
             }
@@ -473,7 +482,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 2 <= PAGE_SIZE) {
             try {
-                pages[addr >>> PAGE_SHIFT].putShort(off, data);
+                pageForAddress(addr, 2).putShort(off, data);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 2);
             }
@@ -493,7 +502,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 2 <= PAGE_SIZE) {
             try {
-                return pages[addr >>> PAGE_SHIFT].getShort(off);
+                return pageForAddress(addr, 2).getShort(off);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 2);
             }
@@ -514,7 +523,7 @@ public final class ByteBufferMemory implements Memory {
     @Override
     public void writeByte(int addr, byte data) {
         try {
-            pages[addr >>> PAGE_SHIFT].put(addr & PAGE_MASK, data);
+            pageForAddress(addr, 1).put(addr & PAGE_MASK, data);
         } catch (RuntimeException e) {
             throw outOfBoundsException(e, addr, 1);
         }
@@ -525,7 +534,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 4 <= PAGE_SIZE) {
             try {
-                pages[addr >>> PAGE_SHIFT].putFloat(off, data);
+                pageForAddress(addr, 4).putFloat(off, data);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 4);
             }
@@ -544,7 +553,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 4 <= PAGE_SIZE) {
             try {
-                return pages[addr >>> PAGE_SHIFT].getFloat(off);
+                return pageForAddress(addr, 4).getFloat(off);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 4);
             }
@@ -558,7 +567,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 8 <= PAGE_SIZE) {
             try {
-                pages[addr >>> PAGE_SHIFT].putDouble(off, data);
+                pageForAddress(addr, 8).putDouble(off, data);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 8);
             }
@@ -572,7 +581,7 @@ public final class ByteBufferMemory implements Memory {
         int off = addr & PAGE_MASK;
         if (off + 8 <= PAGE_SIZE) {
             try {
-                return pages[addr >>> PAGE_SHIFT].getDouble(off);
+                return pageForAddress(addr, 8).getDouble(off);
             } catch (RuntimeException e) {
                 throw outOfBoundsException(e, addr, 8);
             }

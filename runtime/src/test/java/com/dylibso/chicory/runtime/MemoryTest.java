@@ -1,6 +1,8 @@
 package com.dylibso.chicory.runtime;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.dylibso.chicory.wasm.types.MemoryLimits;
 import java.util.concurrent.CompletableFuture;
@@ -12,6 +14,34 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 public class MemoryTest {
+
+    @ParameterizedTest(name = "{0}")
+    @MethodSource("memoryImplementations")
+    public void scalarBoundsTrapAndCrossPageAccessRemainExact(
+            String name, Supplier<Memory> memorySupplier) {
+        var memory = memorySupplier.get();
+        int limit = memory.pages() * Memory.PAGE_SIZE;
+        for (int address : new int[] {-1, Integer.MIN_VALUE, Integer.MAX_VALUE, limit}) {
+            assertThrows(WasmRuntimeException.class, () -> memory.read(address));
+            assertThrows(WasmRuntimeException.class, () -> memory.readShort(address));
+            assertThrows(WasmRuntimeException.class, () -> memory.readInt(address));
+            assertThrows(WasmRuntimeException.class, () -> memory.readLong(address));
+            assertThrows(WasmRuntimeException.class, () -> memory.readFloat(address));
+            assertThrows(WasmRuntimeException.class, () -> memory.readDouble(address));
+            assertThrows(WasmRuntimeException.class, () -> memory.writeByte(address, (byte) 1));
+            assertThrows(WasmRuntimeException.class, () -> memory.writeShort(address, (short) 1));
+            assertThrows(WasmRuntimeException.class, () -> memory.writeI32(address, 1));
+            assertThrows(WasmRuntimeException.class, () -> memory.writeLong(address, 1));
+            assertThrows(WasmRuntimeException.class, () -> memory.writeF32(address, 1));
+            assertThrows(WasmRuntimeException.class, () -> memory.writeF64(address, 1));
+        }
+        memory.writeLong(Memory.PAGE_SIZE - 3, 0x0123456789ABCDEFL);
+        assertEquals(0x0123456789ABCDEFL, memory.readLong(Memory.PAGE_SIZE - 3));
+        memory.writeByte(limit - 1, (byte) 42);
+        assertThrows(WasmRuntimeException.class, () -> memory.writeI32(limit - 1, 0));
+        assertEquals(42, memory.read(limit - 1));
+        assertThrows(WasmRuntimeException.class, () -> memory.readLong(limit - 1));
+    }
 
     private static Stream<Arguments> memoryImplementations() {
         return Stream.of(
