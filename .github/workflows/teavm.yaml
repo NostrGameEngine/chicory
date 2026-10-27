@@ -10,9 +10,13 @@ permissions:
 
 jobs:
   runtime:
-    name: Compile and run runtime JavaScript
+    name: Runtime and build-time modules (${{ matrix.backend }})
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        backend: [javascript, wasm-gc]
     steps:
       - name: Checkout sources
         uses: actions/checkout@v6
@@ -27,10 +31,10 @@ jobs:
         with:
           node-version: '22'
       - name: Compile and execute with the NGE TeaVM fork
-        run: mvn -B -ntp -U -Dteavm-tests -pl teavm-tests -am verify
-      - name: Upload generated JavaScript
+        run: mvn -B -ntp -U -Dteavm-tests -Dteavm.backend=${{ matrix.backend }} -pl teavm-tests -am verify
+      - name: Upload generated TeaVM application
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: teavm-runtime-javascript
-          path: teavm-tests/target/javascript/
+          name: teavm-runtime-${{ matrix.backend }}
+          path: teavm-tests/target/${{ matrix.backend }}/
