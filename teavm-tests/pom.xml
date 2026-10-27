@@ -10,12 +10,15 @@
   </parent>
   <artifactId>teavm-tests</artifactId>
   <name>Chicory - NGE TeaVM Runtime Tests</name>
-  <description>Compile and execute the interpreter with the NGE TeaVM fork</description>
+  <description>Run interpreted and precompiled modules in NGE TeaVM JavaScript and Wasm GC</description>
 
   <properties>
     <!-- Match the fork's ASM dependency within this test module. -->
     <asm.version>9.10.1</asm.version>
     <teavm.version>0.16.0-SNAPSHOT</teavm.version>
+    <teavm.backend>javascript</teavm.backend>
+    <teavm.targetType>JAVASCRIPT</teavm.targetType>
+    <teavm.targetFileName>runtime-smoke.mjs</teavm.targetFileName>
     <maven.deploy.skip>true</maven.deploy.skip>
     <maven.install.skip>true</maven.install.skip>
   </properties>
@@ -32,6 +35,12 @@
     <dependency>
       <groupId>org.ngengine</groupId>
       <artifactId>teavm-classlib</artifactId>
+      <version>${teavm.version}</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.ngengine</groupId>
+      <artifactId>teavm-extension-spi</artifactId>
       <version>${teavm.version}</version>
       <scope>provided</scope>
     </dependency>
@@ -88,6 +97,7 @@
               <workingDirectory>${project.basedir}</workingDirectory>
               <arguments>
                 <argument>run-smoke.mjs</argument>
+                <argument>${teavm.backend}</argument>
               </arguments>
               <timeout>90000</timeout>
             </configuration>
@@ -100,9 +110,10 @@
         <version>${teavm.version}</version>
         <configuration>
           <mainClass>com.dylibso.chicory.teavm.RuntimeSmoke</mainClass>
-          <targetType>JAVASCRIPT</targetType>
+          <targetType>${teavm.targetType}</targetType>
           <jsModuleType>ES2015</jsModuleType>
-          <targetFileName>runtime-smoke.mjs</targetFileName>
+          <targetDirectory>${project.build.directory}/${teavm.backend}</targetDirectory>
+          <targetFileName>${teavm.targetFileName}</targetFileName>
           <minifying>false</minifying>
           <stopOnErrors>true</stopOnErrors>
         </configuration>
@@ -114,6 +125,73 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.ngengine.chicory</groupId>
+        <artifactId>chicory-compiler-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>precompile-smoke-module</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <wasmFile>${project.basedir}/src/main/resources/runtime-smoke.wasm</wasmFile>
+              <name>com.dylibso.chicory.teavm.PrecompiledSmoke</name>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>wasm-gc</id>
+      <activation>
+        <property>
+          <name>teavm.backend</name>
+          <value>wasm-gc</value>
+        </property>
+      </activation>
+      <properties>
+        <teavm.targetType>WEBASSEMBLY_GC</teavm.targetType>
+        <teavm.targetFileName>runtime-smoke.wasm</teavm.targetFileName>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>execute-javascript</id>
+                <configuration>
+                  <arguments combine.self="override">
+                    <argument>--experimental-wasm-exnref</argument>
+                    <argument>run-smoke.mjs</argument>
+                    <argument>wasm-gc</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.ngengine</groupId>
+            <artifactId>teavm-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-wasm-runtime</id>
+                <goals>
+                  <goal>copy-webassembly-gc-runtime</goal>
+                </goals>
+                <configuration>
+                  <runtimeFileName>wasm-runtime.mjs</runtimeFileName>
+                  <modular>true</modular>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
