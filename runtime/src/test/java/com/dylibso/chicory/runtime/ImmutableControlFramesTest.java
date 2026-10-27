@@ -265,11 +265,11 @@ public class ImmutableControlFramesTest {
 
     private static byte[] module(byte[][] types, int[] functions, boolean tag, byte[]... bodies) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        out.writeBytes(new byte[] {0, 0x61, 0x73, 0x6d, 1, 0, 0, 0});
+        out.write(new byte[] {0, 0x61, 0x73, 0x6d, 1, 0, 0, 0}, 0, 8);
         ByteArrayOutputStream data = new ByteArrayOutputStream();
         unsigned(data, types.length);
         for (byte[] value : types) {
-            data.writeBytes(value);
+            data.write(value, 0, value.length);
         }
         section(out, 1, data);
         data = new ByteArrayOutputStream();
@@ -280,17 +280,17 @@ public class ImmutableControlFramesTest {
         section(out, 3, data);
         if (tag) {
             data = new ByteArrayOutputStream();
-            data.writeBytes(new byte[] {1, 0, 0});
+            data.write(new byte[] {1, 0, 0}, 0, 3);
             section(out, 13, data);
         }
         data = new ByteArrayOutputStream();
-        data.writeBytes(new byte[] {1, 3, 'r', 'u', 'n', 0, 0});
+        data.write(new byte[] {1, 3, 'r', 'u', 'n', 0, 0}, 0, 7);
         section(out, 7, data);
         data = new ByteArrayOutputStream();
         unsigned(data, bodies.length);
         for (byte[] value : bodies) {
             unsigned(data, value.length);
-            data.writeBytes(value);
+            data.write(value, 0, value.length);
         }
         section(out, 10, data);
         return out.toByteArray();
@@ -299,7 +299,7 @@ public class ImmutableControlFramesTest {
     private static void section(ByteArrayOutputStream out, int id, ByteArrayOutputStream data) {
         out.write(id);
         unsigned(out, data.size());
-        out.writeBytes(data.toByteArray());
+        out.write(data.toByteArray(), 0, data.size());
     }
 
     private static void unsigned(ByteArrayOutputStream out, int value) {
